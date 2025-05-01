@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4">{% if category %}{{ category }}{% else %}Всё меню{% endif %}</h1>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for item in menu %}
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{ url_for('static', filename='images/' + item.image) }}" class="card-img-top" alt="{{ item.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.name }}</h5>
+                    <p class="card-text">{{ item.price }} ₽</p>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12">
+            <div class="alert alert-info">Нет блюд в этой категории</div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="mt-4">
+        <a href="{{ url_for('show_menu') }}" class="btn btn-outline-primary">Всё меню</a>
+    </div>
+</div>
+{% endblock %}

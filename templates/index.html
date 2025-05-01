@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+{% block content %}
+<!-- Слайдер акций -->
+<div id="promoCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="2"></button>
+    </div>
+
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{{ url_for('static', filename='images/banner1.jpg') }}" class="d-block w-100" alt="Акция 1">
+            <div class="carousel-caption d-none d-md-block">
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="{{ url_for('static', filename='images/banner2.jpg') }}" class="d-block w-100" alt="Акция 2">
+            <div class="carousel-caption d-none d-md-block">
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="{{ url_for('static', filename='images/banner3.jpg') }}" class="d-block w-100" alt="Акция 3">
+            <div class="carousel-caption d-none d-md-block">
+            </div>
+        </div>
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+</div>
+
+<!-- Кнопки категорий -->
+<div class="container">
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <a href="{{ url_for('show_menu', category='Горячие блюда') }}" class="card h-100 text-decoration-none">
+                <img src="{{ url_for('static', filename='images/main-dishes.jpg') }}" class="card-img-top" alt="Основные блюда">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Основные блюда</h5>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="{{ url_for('show_menu', category='Напитки') }}" class="card h-100 text-decoration-none">
+                <img src="{{ url_for('static', filename='images/drinks.jpg') }}" class="card-img-top" alt="Напитки">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Напитки</h5>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="{{ url_for('show_menu', category='Десерты') }}" class="card h-100 text-decoration-none">
+                <img src="{{ url_for('static', filename='images/desserts.jpg') }}" class="card-img-top" alt="Десерты">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Десерты</h5>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
