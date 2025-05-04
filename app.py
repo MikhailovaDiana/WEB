@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime, time
+from datetime import *
 import requests
 from flask_caching import Cache
 
@@ -22,8 +22,56 @@ cache.init_app(app)
 YANDEX_MAPS_API_KEY = 'f3a0fe3a-b07e-4840-a1da-06f18b2ddf13'
 MAPS_BASE_URL = 'https://static-maps.yandex.ru/v1'
 
+# Данные для генерации контента
+PROMO_DATA = [
+    {'image': 'banner1.jpg', 'title': 'Специальное предложение!', 'text': 'Скидка 20% на все основные блюда'},
+    {'image': 'banner2.jpg', 'title': 'Новые десерты', 'text': 'Попробуйте наши сезонные десерты'},
+    {'image': 'banner3.jpg', 'title': 'Вино дня', 'text': 'Отборные вина со скидкой 30%'}
+]
 
-# Модели базы данных
+MENU_CATEGORIES = [
+    {'id': 'Горячие блюда', 'title': 'Основные блюда', 'image': 'main-dishes.jpg'},
+    {'id': 'Напитки', 'title': 'Напитки', 'image': 'drinks.jpg'},
+    {'id': 'Десерты', 'title': 'Десерты', 'image': 'desserts.jpg'}
+]
+
+MENU_ITEMS = {
+    'Напитки': [
+        {'title': 'Зеленый чай', 'price': 150, 'image': 'green_tea.jpg'},
+        {'title': 'Черный чай', 'price': 150, 'image': 'black_tea.jpg'},
+        {'title': 'Вишневый лимонад', 'price': 250, 'image': 'cherry_lemonade.jpg'},
+        {'title': 'Клубничный лимонад', 'price': 250, 'image': 'strawberry_lemonade.jpg'},
+        {'title': 'Пиноколада', 'price': 350, 'image': 'pina_colada.jpg'}
+    ],
+    'Горячие блюда': [
+        {'title': 'Филе утиной грудки', 'price': 790, 'image': 'duck.jpg'},
+        {'title': 'Шашлык из свиной шеи', 'price': 650, 'image': 'shashlik.jpg'},
+        {'title': 'Филе трески', 'price': 720, 'image': 'cod.jpg'},
+        {'title': 'Греческий салат', 'price': 450, 'image': 'greek_salad.jpg'},
+        {'title': 'Цезарь с курицей', 'price': 480, 'image': 'caesar_chicken.jpg'},
+        {'title': 'Цезарь с креветкой', 'price': 550, 'image': 'caesar_shrimp.jpg'}
+    ],
+    'Десерты': [
+        {'title': 'Тирамису', 'price': 320, 'image': 'tiramisu.jpg'},
+        {'title': 'Наполеон', 'price': 300, 'image': 'napoleon.jpg'},
+        {'title': 'Яблочный штрудель', 'price': 280, 'image': 'shtrudel.jpg'}
+    ]
+}
+RESERVATION_CONFIG = {
+    'working_hours': {
+        'min_time': '10:00',
+        'max_time': '22:30',
+        'days_ahead': 30  # Максимальное дней для бронирования вперед
+    },
+    'guests_options': list(range(1, 11)),
+    'phone_pattern': r'\+7\s?[0-9]{3}\s?[0-9]{3}\s?[0-9]{2}\s?[0-9]{2}',
+    'success_message': {
+        'title': 'Бронирование подтверждено!',
+        'text': 'Ждем вас в указанное время',
+        'icon': 'bi-check-circle'
+    }
+}
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
@@ -31,7 +79,6 @@ class User(UserMixin, db.Model):
     phone = db.Column(db.String(20), nullable=False)
     password = db.Column(db.String(100), nullable=False)
     reservations = db.relationship('Reservation', backref='user', lazy=True)
-
 
 class Reservation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -42,22 +89,26 @@ class Reservation(db.Model):
     date = db.Column(db.DateTime, nullable=False)
     guests = db.Column(db.Integer, nullable=False)
 
-
 @login_manager.user_loader
 def load_user(user_id):
     return db.session.get(User, int(user_id))
 
-
 # Маршруты
 @app.route('/')
 def home():
-    return render_template('index.html', title='Главная')
-
+    return render_template('index.html',
+                         title='Главная',
+                         promo_data=PROMO_DATA,
+                         categories=MENU_CATEGORIES)
 
 @app.route('/menu')
 def show_menu():
-    return render_template('menu.html', title='Меню')
-
+    category = request.args.get('category', 'Горячие блюда')
+    return render_template('menu.html',
+                         title='Меню',
+                         menu_items=MENU_ITEMS.get(category, []),
+                         categories=MENU_CATEGORIES,
+                         current_category=category)
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
@@ -154,6 +205,7 @@ def logout():
 @app.route('/reservation', methods=['GET', 'POST'])
 def reservation():
     current_date = datetime.now().strftime('%Y-%m-%d')
+    max_date = (datetime.now() + timedelta(days=RESERVATION_CONFIG['working_hours']['days_ahead'])).strftime('%Y-%m-%d')
 
     if request.method == 'POST':
         try:
@@ -191,13 +243,15 @@ def reservation():
 
     return render_template('reservation.html',
                            title='Бронирование',
-                           current_date=current_date)
+                           current_date=current_date,
+                           max_date=max_date,
+                           config=RESERVATION_CONFIG)
 
-
-@app.route('/reservation/success')
-def reservation_success():
-    return render_template('reservation_success.html', title='Успешное бронирование')
-
+    @app.route('/reservation/success')
+    def reservation_success():
+        return render_template('reservation_success.html',
+                               title='Успешное бронирование',
+                               config=RESERVATION_CONFIG)
 
 @app.route('/profile')
 @login_required
@@ -213,7 +267,6 @@ def profile():
 
 @cache.memoize(timeout=3600)
 def generate_map_url(lon: float, lat: float, zoom: int = 15, size: str = '650,450') -> str:
-    """Генерирует URL для статической карты Яндекс"""
     try:
         # Проверка и нормализация параметров
         if not (-180 <= lon <= 180) or not (-90 <= lat <= 90):
