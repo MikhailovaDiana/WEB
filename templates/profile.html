@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Личный кабинет</h3>
+                </div>
+                <div class="card-body">
+                    <h4 class="mb-4">Добро пожаловать, {{ user.name }}!</h4>
+                    
+                    <div class="mb-5">
+                        <h5>Ваши данные:</h5>
+                        <ul class="list-unstyled">
+                            <li><strong>Email:</strong> {{ user.email }}</li>
+                            <li><strong>Телефон:</strong> {{ user.phone }}</li>
+                        </ul>
+                    </div>
+
+                    <h5 class="mb-3">Активные бронирования:</h5>
+                    {% if reservations %}
+                    <div class="list-group">
+                        {% for reservation in reservations %}
+                        <div class="list-group-item">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6>{{ reservation.date.strftime('%d.%m.%Y в %H:%M') }}</h6>
+                                    <span class="text-muted">{{ reservation.guests }} гостей</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        У вас пока нет активных бронирований
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,28 +1,147 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container my-5">
-    <h1 class="mb-4">{% if category %}{{ category }}{% else %}Всё меню{% endif %}</h1>
+    <h1 class="mb-4">Наше меню</h1>
 
+    <!-- Напитки -->
+    <h2 class="mt-5">🍹 Напитки</h2>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        {% for item in menu %}
         <div class="col">
             <div class="card h-100">
-                <img src="{{ url_for('static', filename='images/' + item.image) }}" class="card-img-top" alt="{{ item.name }}">
+                <img src="{{ url_for('static', filename='images/green_tea.jpg') }}" class="card-img-top" alt="Зеленый чай">
                 <div class="card-body">
-                    <h5 class="card-title">{{ item.name }}</h5>
-                    <p class="card-text">{{ item.price }} ₽</p>
+                    <h5 class="card-title">Зеленый чай</h5>
+                    <p class="card-text">150 ₽</p>
                 </div>
             </div>
         </div>
-        {% else %}
-        <div class="col-12">
-            <div class="alert alert-info">Нет блюд в этой категории</div>
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{ url_for('static', filename='images/black_tea.jpg') }}" class="card-img-top" alt="Черный чай">
+                <div class="card-body">
+                    <h5 class="card-title">Черный чай</h5>
+                    <p class="card-text">150 ₽</p>
+                </div>
+            </div>
         </div>
-        {% endfor %}
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{ url_for('static', filename='images/cherry_lemonade.jpg') }}" class="card-img-top" alt="Вишневый лимонад">
+                <div class="card-body">
+                    <h5 class="card-title">Вишневый лимонад</h5>
+                    <p class="card-text">250 ₽</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{ url_for('static', filename='images/strawberry_lemonade.jpg') }}" class="card-img-top" alt="Клубничный лимонад">
+                <div class="card-body">
+                    <h5 class="card-title">Клубничный лимонад</h5>
+                    <p class="card-text">250 ₽</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{ url_for('static', filename='images/pina_colada.jpg') }}" class="card-img-top" alt="Пиноколада">
+                <div class="card-body">
+                    <h5 class="card-title">Пиноколада</h5>
+                    <p class="card-text">350 ₽</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="mt-4">
-        <a href="{{ url_for('show_menu') }}" class="btn btn-outline-primary">Всё меню</a>
+    <!-- Основные блюда -->
+    <h2 class="mt-5">🍽 Основное меню</h2>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{ url_for('static', filename='images/duck.jpg') }}" class="card-img-top" alt="Утиная грудка">
+                <div class="card-body">
+                    <h5 class="card-title">Филе утиной грудки под облепиховым соусом</h5>
+                    <p class="card-text">790 ₽</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{ url_for('static', filename='images/shashlik.jpg') }}" class="card-img-top" alt="Шашлык">
+                <div class="card-body">
+                    <h5 class="card-title">Шашлык из свиной шеи</h5>
+                    <p class="card-text">650 ₽</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{ url_for('static', filename='images/cod.jpg') }}" class="card-img-top" alt="Треска">
+                <div class="card-body">
+                    <h5 class="card-title">Филе трески в сливочном соусе с грибами</h5>
+                    <p class="card-text">720 ₽</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{ url_for('static', filename='images/greek_salad.jpg') }}" class="card-img-top" alt="Греческий салат">
+                <div class="card-body">
+                    <h5 class="card-title">Греческий салат</h5>
+                    <p class="card-text">450 ₽</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{ url_for('static', filename='images/caesar_chicken.jpg') }}" class="card-img-top" alt="Цезарь с курицей">
+                <div class="card-body">
+                    <h5 class="card-title">Цезарь с курицей</h5>
+                    <p class="card-text">480 ₽</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{ url_for('static', filename='images/caesar_shrimp.jpg') }}" class="card-img-top" alt="Цезарь с креветкой">
+                <div class="card-body">
+                    <h5 class="card-title">Цезарь с креветкой</h5>
+                    <p class="card-text">550 ₽</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Десерты -->
+    <h2 class="mt-5">🍰 Десерты</h2>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{ url_for('static', filename='images/tiramisu.jpg') }}" class="card-img-top" alt="Тирамису">
+                <div class="card-body">
+                    <h5 class="card-title">Тирамису</h5>
+                    <p class="card-text">320 ₽</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{ url_for('static', filename='images/napoleon.jpg') }}" class="card-img-top" alt="Чизкейк">
+                <div class="card-body">
+                    <h5 class="card-title">Наполеон</h5>
+                    <p class="card-text">300 ₽</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{ url_for('static', filename='images/shtrudel.jpg') }}" class="card-img-top" alt="Шоколадный фондан">
+                <div class="card-body">
+                    <h5 class="card-title">Яблочный штрудель</h5>
+                    <p class="card-text">280 ₽</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

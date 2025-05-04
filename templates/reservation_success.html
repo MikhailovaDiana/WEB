@@ -3,31 +3,11 @@
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-8 text-center">
-        <div class="success-check mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#28a745" class="bi bi-check2-circle" viewBox="0 0 16 16">
-                <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
-                <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
-            </svg>
+        <div class="alert alert-success mt-4">
+            <h2><i class="bi bi-check-circle"></i> Бронирование подтверждено!</h2>
+            <p class="lead mt-3">Ждем вас в указанное время</p>
         </div>
-
-        <h2 class="mb-3">Бронирование успешно подтверждено!</h2>
-
-        <p class="lead mb-4">
-            Спасибо за ваше бронирование! Мы отправили подтверждение на указанный email.<br>
-            Ждём вас в нашем ресторане в назначенное время.
-        </p>
-
-        <div class="details-box bg-light p-4 rounded mb-5">
-            <h5 class="mb-3">Детали бронирования:</h5>
-            <ul class="list-unstyled">
-                <li><strong>Имя:</strong> {{ request.args.get('name') }}</li>
-                <li><strong>Дата:</strong> {{ request.args.get('date') }}</li>
-                <li><strong>Время:</strong> {{ request.args.get('time') }}</li>
-                <li><strong>Гостей:</strong> {{ request.args.get('guests') }}</li>
-            </ul>
-        </div>
-
-        <a href="/" class="btn btn-primary btn-lg">
+        <a href="{{ url_for('home') }}" class="btn btn-outline-primary">
             <i class="bi bi-house-door"></i> Вернуться на главную
         </a>
     </div>

@@ -1,10 +1,85 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0"><i class="bi bi-geo-alt-fill"></i> Контакты</h3>
+                </div>
+
+                <div class="card-body">
+                    <!-- Блок контактной информации -->
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded bg-light">
+                                <h4 class="text-primary"><i class="bi bi-house-door"></i> Адрес</h4>
+                                <p class="lead mb-0">
+                                    174510, Новгородская область,<br>
+                                    д. Савино,<br>
+                                    ул. Школьная, д. 3
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded bg-light">
+                                <h4 class="text-primary"><i class="bi bi-clock"></i> Часы работы</h4>
+                                <ul class="list-unstyled">
+                                    <li>Пн-Пт: 10:00 - 23:00</li>
+                                    <li>Сб-Вс: 10:00 - 00:00</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Блок карты -->
+                    <div class="mb-5">
+                        <h4 class="mb-3"><i class="bi bi-map"></i> Наше местоположение</h4>
+                        {% if map_url %}
+                            <div class="ratio ratio-16x9 border rounded-3 overflow-hidden">
+                                <img src="{{ map_url }}"
+                                     alt="Карта расположения ресторана"
+                                     class="img-fluid"
+                                     loading="lazy">
+                            </div>
+                            <p class="text-muted mt-2 small">
+                                Координаты: 58.426373° с.ш., 31.384180° в.д.
+                            </p>
+                        {% else %}
+                            <div class="alert alert-danger">
+                                <i class="bi bi-exclamation-triangle"></i>
+                                Карта временно недоступна. Приносим извинения за неудобства.
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Дополнительные блоки -->
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded bg-light">
+                                <h4 class="text-primary"><i class="bi bi-telephone"></i> Телефоны</h4>
+                                <ul class="list-unstyled">
+                                    <li>+7 (8162) 123-45-67</li>
+                                    <li>+7 (911) 611-22-33</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded bg-light">
+                                <h4 class="text-primary"><i class="bi bi-envelope"></i> Email</h4>
+                                <ul class="list-unstyled">
+                                    <li>booking@haven.ru</li>
+                                    <li>support@haven.ru</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
